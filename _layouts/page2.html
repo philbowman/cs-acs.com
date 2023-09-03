@@ -1,0 +1,81 @@
+{% include text-expand.html %}
+
+<!DOCTYPE html>
+
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+    <head>
+
+        <meta charset="utf-8"/>
+
+        <meta name="description" content="{{ page.description | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <meta property="og:description" content="TODO"/>
+        <meta property="og:image" content="{{ site.image }}"/>
+        <meta property="og:title" content="TODO"/>
+        <meta property="og:url" content="{{ site.url }}"/>
+
+
+        <link href="{{ '/favicon.ico' | relative_url }}?{{ site.time | date: '%s' }}" rel="icon">
+
+        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"/>
+
+        <link rel="stylesheet" href="{{ "/dist/toolkit-light.min.css" | relative_url }}"/>
+        <link rel="stylesheet" href="{{ "/assets/css/application.css" | relative_url }}"/>
+        <link rel="stylesheet" href="{{ "/css/style.css" | relative_url }}"/>
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
+        <!-- http://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+        <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <link href="{{ '/assets/css/style.css' | relative_url }}?{{ site.time | date: '%s' }}" rel="stylesheet">
+
+        <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+
+
+    </head>
+
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <aside class="col-md">
+ 
+                    <header>
+
+                        {%- capture header -%}{%- include header.md -%}{%- endcapture -%}
+                        {{- header | markdownify | replace: " id=", " data-id=" | strip -}}
+
+                    </header>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-target="aside > nav" data-toggle="collapse">Menu</button>
+
+                    <nav class="collapse d-md-block">
+
+                        {%- capture nav -%}{%- include nav.md -%}{%- endcapture -%}
+                        {{- nav | markdownify | replace: " id=", " data-id=" | strip -}}
+
+                    </nav>
+
+                    <footer>
+
+                        {%- capture footer -%}{%- include footer.md -%}{%- endcapture -%}
+                        {{- footer | markdownify | replace: " id=", " data-id=" | strip -}}
+
+                    </footer>
+
+                </aside>
+                <main class="col-md markdown-body">
+
+                    {{ content }}
+
+                </main>
+            </div>
+        </div>
+    </body>
+</html>

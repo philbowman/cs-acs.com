@@ -1,3 +1,5 @@
+{% include text-expand.html %}
+
 <!DOCTYPE html>
 
 <html lang="{{ page.lang | default: site.lang | default: "en" }}">
@@ -11,18 +13,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
         <meta property="og:description" content="TODO"/>
-        <meta property="og:image" content="TODO"/>
+        <meta property="og:image" content="{{ site.image }}"/>
         <meta property="og:title" content="TODO"/>
+        <meta property="og:url" content="{{ site.url }}"/>
 
-        <link rel="icon" href="{{ "/favicon.ico" | relative_url }}"/>
+
+        <link href="{{ '/favicon.ico' | relative_url }}?{{ site.time | date: '%s' }}" rel="icon">
 
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic"/>
 
         <link rel="stylesheet" href="{{ "/dist/toolkit-light.min.css" | relative_url }}"/>
         <link rel="stylesheet" href="{{ "/assets/css/application.css" | relative_url }}"/>
         <link rel="stylesheet" href="{{ "/css/style.css" | relative_url }}"/>
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
+        <!-- http://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+        <script crossorigin="anonymous" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script crossorigin="anonymous" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        <link href="{{ '/assets/css/style.css' | relative_url }}?{{ site.time | date: '%s' }}" rel="stylesheet">
 
         <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+
 
     </head>
 
@@ -30,48 +43,38 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-sm-3 sidebar">
-                    <nav class="sidebar-nav">
-                        <div class="sidebar-header">
-                            <button class="nav-toggler nav-toggler-sm sidebar-toggler" type="button" data-toggle="collapse" data-target="#nav-toggleable-sm">
-                                <span class="sr-only">Toggle nav</span>
-                            </button>
-                            <a class="sidebar-brand img-responsive" href="{{ site.baseurl }}">
-                                <span class="icon icon-leaf sidebar-brand-icon"></span>This is a test.
-                            </a>
-                        </div>
-                        <div class="collapse nav-toggleable-sm" id="nav-toggleable-sm">
-                            <form class="sidebar-form">
-                                <input class="form-control" type="text" placeholder="Search..."/>
-                                <button type="submit" class="btn-link">
-                                    <span class="icon icon-magnifying-glass"></span>
-                                </button>
-                            </form>
-                            <ul class="nav nav-pills nav-stacked">
-                                <li class="nav-header">Dashboards</li>
-                                <li>
-                                    <a href="../index.html">Overview</a>
-                                </li>
-                                <li>
-                                    <a href="../order-history/index.html">Order history</a>
-                                </li>
-                                <li class="nav-header">More</li>
-                                <li>
-                                    <a href="../docs/index.html">
-                                        Toolkit docs
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    <a href="../light/index.html">Light UI</a>
-                                </li>
-                            </ul>
-                            <hr class="visible-xs m-t"/>
-                        </div>
+
+                <aside class="col-md">
+ 
+                    <header>
+
+                        {%- capture header -%}{%- include header.md -%}{%- endcapture -%}
+                        {{- header | markdownify | replace: " id=", " data-id=" | strip -}}
+
+                    </header>
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-md-none" data-target="aside > nav" data-toggle="collapse">Menu</button>
+
+                    <nav class="collapse d-md-block">
+
+                        {%- capture nav -%}{%- include nav.md -%}{%- endcapture -%}
+                        {{- nav | markdownify | replace: " id=", " data-id=" | strip -}}
+
                     </nav>
-                </div>
+
+                    <footer>
+
+                        {%- capture footer -%}{%- include footer.md -%}{%- endcapture -%}
+                        {{- footer | markdownify | replace: " id=", " data-id=" | strip -}}
+
+                    </footer>
+
+                </aside>
                 <div class="col-sm-9 content">
-                    <h1>{{ page.title | escape }}</h1>
+
+
                     {{ content }}
+                    
                 </div>
             </div>
         </div>

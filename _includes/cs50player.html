@@ -1,0 +1,10 @@
+<iframe src="https://www.youtube.com/embed/{{ include.id }}?start={{ include.timestamp }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="iFrameResizer0" class="border"></iframe>
+
+<script src="https://cdn.jsdelivr.net/npm/iframe-resizer/js/iframeResizer.min.js"></script>
+<script>
+    document.querySelectorAll('iframe[src^="https://youtube.com"]').forEach(function(element) {
+        element.addEventListener('load', function() {
+            iFrameResize(element);
+        });
+    });
+</script>
